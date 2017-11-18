@@ -1,5 +1,5 @@
 """
-WSGI config for {{project_name}} project.
+WSGI config for personal_feed project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -14,7 +14,7 @@ from django.core.wsgi import get_wsgi_application
 from whitenoise.django import DjangoWhiteNoise
 
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "{{project_name}}.settings.production")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "personal_feed.settings.production")
 
 application = get_wsgi_application()
 application = DjangoWhiteNoise(application)
