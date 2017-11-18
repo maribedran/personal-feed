@@ -58,5 +58,5 @@ deployment:
       - git checkout -b boilerplate-release
       - git add circle.yml
       - git rm proj_circle.yml
-      - GIT_COMMITTER_NAME="Vinta Software" GIT_COMMITTER_EMAIL="contact@vinta.com.br" git commit -m "Replacing circle.yml" --author "Vinta Software <contact@vinta.com.br>"
+      - GIT_COMMITTER_NAME="Mariana Bedran Lesche" GIT_COMMITTER_EMAIL="maribedran@gmail.com" git commit -m "Replacing circle.yml" --author "Mariana Bedran Lesche <maribedran@gmail.com>"
       - git push origin boilerplate-release --force

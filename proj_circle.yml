@@ -18,7 +18,7 @@ test:
     # pre-commit additional checks
     - SKIP=prospector,isort pre-commit run --all-files
     - >
-        DJANGO_SETTINGS_MODULE={{project_name}}.settings.local
+        DJANGO_SETTINGS_MODULE=personal_feed.settings.local
             python manage.py has_missing_migrations --ignore authtools;
     - >
         SECRET_KEY=$(python -c 'import uuid; print(uuid.uuid4().hex + uuid.uuid4().hex)')
@@ -27,7 +27,7 @@ test:
         SENDGRID_USERNAME='test'
         SENDGRID_PASSWORD='test'
         REDIS_URL='redis://'
-            python manage.py check --deploy --settings={{project_name}}.settings.production
+            python manage.py check --deploy --settings=personal_feed.settings.production
     - coverage run manage.py test
     - npm run lint
   post:

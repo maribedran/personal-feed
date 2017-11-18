@@ -1,6 +1,6 @@
 {
-  "name": "{{project_name}}",
-  "description": "{{project_name|title}} Heroku app.",
+  "name": "personal_feed",
+  "description": "My Personal Feed Heroku app.",
   "scripts": {
     "postdeploy": "python manage.py migrate"
   },
@@ -14,7 +14,7 @@
     },
     "DJANGO_SETTINGS_MODULE": {
       "description": "Django settings Python import path",
-      "value": "{{project_name}}.settings.production"
+      "value": "personal_feed.settings.production"
     },
     "SECRET_KEY": {
       "description": "Django SECRET_KEY setting",
