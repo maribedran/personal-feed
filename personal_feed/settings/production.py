@@ -21,11 +21,11 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = base_dir_join('mediafiles')
 MEDIA_URL = '/media/'
 
-SERVER_EMAIL = 'foo@example.com'
+SERVER_EMAIL = config('SERVER_EMAIL')
 
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = config('SENDGRID_USERNAME')
-EMAIL_HOST_PASSWORD = config('SENDGRID_PASSWORD')
+EMAIL_HOST = 'smtp.gmail.net'
+EMAIL_HOST_USER = config('GMAIL_USERNAME')
+EMAIL_HOST_PASSWORD = config('GMAIL_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
