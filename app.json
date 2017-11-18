@@ -1,12 +1,12 @@
 {
-  "name": "personal_feed",
+  "name": "personal-feed",
   "description": "My Personal Feed Heroku app.",
   "scripts": {
     "postdeploy": "python manage.py migrate"
   },
   "env": {
     "ALLOWED_HOSTS": {
-      "description": "Django ALLOWED_HOSTS setting, e.g.: .appname.herokuapp.com"
+      "description": "Django ALLOWED_HOSTS setting, e.g.: .personal-feed.herokuapp.com"
     },
     "DISABLE_COLLECTSTATIC": {
       "description": "Heroku setting to disable Django collectstatic (it is run by bin/post_compile)",
