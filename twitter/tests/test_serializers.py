@@ -3,8 +3,8 @@ from django.utils import timezone
 
 from model_mommy import mommy
 
-from twitter.models import TwitterUser, Tweet
-from twitter.serializers import TwitterUserCreateSerializer, TweetCreateSerializer
+from twitter.models import Tweet, TwitterUser
+from twitter.serializers import TweetCreateSerializer, TwitterUserCreateSerializer
 
 
 class TwitterUserCreateSerializerTest(TestCase):
