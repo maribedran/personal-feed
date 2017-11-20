@@ -1,7 +1,10 @@
 from django.test import TestCase
+from django.utils import timezone
 
-from twitter.models import TwitterUser
-from twitter.serializers import TwitterUserCreateSerializer
+from model_mommy import mommy
+
+from twitter.models import TwitterUser, Tweet
+from twitter.serializers import TwitterUserCreateSerializer, TweetCreateSerializer
 
 
 class TwitterUserCreateSerializerTest(TestCase):
@@ -16,3 +19,20 @@ class TwitterUserCreateSerializerTest(TestCase):
         self.assertTrue(serializer.is_valid())
         serializer.save()
         self.assertIsInstance(serializer.instance, TwitterUser)
+
+
+class TweetCreateSerializerTest(TestCase):
+
+    def test_serializer_creates_instance(self):
+        now = timezone.now()
+        user = mommy.make(TwitterUser)
+        data = {
+            'id': 1234567890,
+            'user': user.id,
+            'text': 'My awesome tweet',
+            'created_at': now.isoformat()
+        }
+        serializer = TweetCreateSerializer(data=data)
+        self.assertTrue(serializer.is_valid())
+        serializer.save()
+        self.assertIsInstance(serializer.instance, Tweet)
