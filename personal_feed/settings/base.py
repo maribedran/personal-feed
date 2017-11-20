@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'common',
     'users',
+    'twitter',
 ]
 
 MIDDLEWARE = [
