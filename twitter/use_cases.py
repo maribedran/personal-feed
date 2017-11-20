@@ -7,8 +7,8 @@ class FetchUserUseCase(object):
     def execute(self, twitter_username):
         message = 'Something went wrong and the user could not be added. Please try againg later or contact our support team.'
         params = {'params': {'screen_name': twitter_username}}
-        client = UsersLookupClient(action_params=params)
-        response = client()
+        client = UsersLookupClient()
+        response = client(params)
         status = response['status']
         data = response['data']
         if status == 200:

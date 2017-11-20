@@ -24,7 +24,7 @@ class UsersLookupClientTest(TestCase):
             content_type="application/json"
         )
         params = {'params': {'screen_name': 'dog_rates'}}
-        response = UsersLookupClient(action_params=params)()
+        response = UsersLookupClient()(params)
         expected = {'status': 200, 'data': dog_rates_response}
         self.assertEqual(expected, response)
 
@@ -40,7 +40,7 @@ class UsersLookupClientTest(TestCase):
             content_type="application/json"
         )
         params = {'params': {'screen_name': 'not_ratting_dog'}}
-        response = UsersLookupClient(action_params=params)()
+        response = UsersLookupClient()(params)
         expected = {'status': 404, 'data': not_found}
         self.assertEqual(expected, response)
 
@@ -72,7 +72,7 @@ class StatusesUserTimelineClientTest(TestCase):
             content_type="application/json"
         )
         params = {'params': {'screen_name': 'dog_rates', 'count': 1}}
-        response = StatusesUserTimelineClient(action_params=params)()
+        response = StatusesUserTimelineClient()(params)
         expected = {'status': 200, 'data': [dog_rates_tweet]}
         self.assertEqual(expected, response)
 
@@ -90,7 +90,7 @@ class StatusesUserTimelineClientTest(TestCase):
             content_type="application/json"
         )
         params = {'params': {'screen_name': 'not_ratting_dog', 'count': 1}}
-        response = StatusesUserTimelineClient(action_params=params)()
+        response = StatusesUserTimelineClient()(params)
         expected = {'status': 404, 'data': not_found}
         self.assertEqual(expected, response)
 

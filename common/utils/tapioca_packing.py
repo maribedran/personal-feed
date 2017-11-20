@@ -14,21 +14,21 @@ class TapiocaPacking(object):
     resource = None
     action = None
 
-    def __init__(self, resource_params=None, action_params=None):
+    def __init__(self, resource_params=None):
         self._check_config()
         self.api = self.tapioca_wrapper(**self.auth_params)
         self.resource_params = resource_params or {}
-        self.action_params = action_params or {}
+        self.api_resource = getattr(self.api, self.resource)(**self.resource_params)
+        self.resource_action = getattr(self.api_resource, self.action)
 
-    def __call__(self):
-        resource = getattr(self.api, self.resource)(**self.resource_params)
-        action = getattr(resource, self.action)
+    def __call__(self, params=None):
+        params = params or {}
         try:
-            return {'status': 200, 'data': action(**self.action_params)._data}
+            return {'status': 200, 'data': self.resource_action(**params)._data}
         except (ClientError, ServerError) as e:
-            return self.handle_error(e)
+            return self.handle_error(e, params)
 
-    def handle_error(self, error):
+    def handle_error(self, error, params):
         status = error.status_code
         message = error.client._data
         if self.logging_class:
@@ -38,7 +38,7 @@ class TapiocaPacking(object):
                 resource=self.resource,
                 action=self.action,
                 resouce_params=json.dumps(self.resource_params),
-                action_params=json.dumps(self.action_params)
+                action_params=json.dumps(params)
             )
         return {'status': status, 'data': message}
 
