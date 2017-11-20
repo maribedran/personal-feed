@@ -30,7 +30,7 @@ class TapiocaPacking(object):
 
     def handle_error(self, error):
         status = error.status_code
-        message = error.client.errors._data
+        message = error.client._data
         if self.logging_class:
             self.logging_class.objects.create(
                 status=status,
