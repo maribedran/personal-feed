@@ -25,13 +25,15 @@ class TweetModelTest(TestCase):
         user = mommy.make(TwitterUser)
         now = timezone.now()
         tweet = Tweet.objects.create(
+            twitter_id=1234567890,
             user=user,
-            content='Awesome Tweet',
-            posted_at=now
+            text='Awesome Tweet',
+            created_at=now
         )
+        self.assertEqual(1234567890, tweet.twitter_id)
         self.assertEqual(user, tweet.user)
-        self.assertEqual('Awesome Tweet', tweet.content)
-        self.assertEqual(now, tweet.posted_at)
+        self.assertEqual('Awesome Tweet', tweet.text)
+        self.assertEqual(now, tweet.created_at)
 
     def test_deleting_user_deletes_tweet(self):
         user = mommy.make(TwitterUser)

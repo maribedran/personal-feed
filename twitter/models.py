@@ -10,10 +10,11 @@ class TwitterUser(models.Model):
 
 
 class Tweet(models.Model):
+    twitter_id = models.BigIntegerField(_('Twitter Id'), unique=True)
     user = models.ForeignKey(
         'twitter.TwitterUser',
         verbose_name=_('User'),
         on_delete=models.CASCADE
     )
-    content = models.TextField(_('Content'))
-    posted_at = models.DateTimeField(_('Posted at'))
+    text = models.TextField(_('Content'))
+    created_at = models.DateTimeField(_('Posted at'))
