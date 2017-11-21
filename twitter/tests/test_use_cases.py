@@ -8,7 +8,9 @@ from model_mommy import mommy
 
 from twitter.models import Tweet, TwitterUser
 from twitter.tests.specs import dog_rates_response, dog_rates_tweet
-from twitter.use_cases import FetchUsersLastMonthsTweetsUseCase, FetchUserUseCase, NotFoundError, UnexpectedError
+from twitter.use_cases import (
+    FetchUsersLastMonthsTweetsUseCase, FetchUserUseCase, NotFoundError, UnexpectedError
+)
 
 
 class FetchUserUseCaseTest(TestCase):
@@ -119,17 +121,15 @@ class FetchUsersLastMonthsTweetsUseCaseTest(TestCase):
 
     @patch('twitter.use_cases.StatusesUserTimelineClient.__call__')
     @patch('twitter.use_cases.StatusesUserTimelineClient.__init__')
-    def test_error_returns_unexpected_error_message(self, *args):
+    def test_error_raises_unexpected_error_exception(self, *args):
         mocked_client, mocked_client_call = args
         mocked_client.return_value = None
         mocked_client_call.return_value = {
             'status': 500, 'data': {}}
 
         use_case = FetchUsersLastMonthsTweetsUseCase()
-        result = use_case.execute(self.user)
 
         params = {'params': {'user_id': self.user.twitter_id, 'count': 200}}
+        self.assertRaises(UnexpectedError, use_case.execute, self.user)
         mocked_client.assert_called_once_with()
         mocked_client_call.assert_called_once_with(params)
-        message = 'Something went wrong and the timeline could not be retrieved. Please try againg later or contact our support team.'
-        self.assertEqual(message, result)

@@ -34,7 +34,6 @@ class FetchUserUseCase(object):
 class FetchUsersLastMonthsTweetsUseCase(object):
 
     def execute(self, twitter_user):
-        message = 'Something went wrong and the timeline could not be retrieved. Please try againg later or contact our support team.'
         client = StatusesUserTimelineClient()
         params = {'params': {'user_id': twitter_user.twitter_id, 'count': 200}}
         tweets = {}
@@ -59,5 +58,6 @@ class FetchUsersLastMonthsTweetsUseCase(object):
         serializer = TweetCreateSerializer(data=list(tweets.values()), many=True)
         if serializer.is_valid() and tweets:
             serializer.save()
-            message = "Success! User's timeline saved to database."
-        return message
+            return "Success! User's timeline saved to database."
+        message = 'Something went wrong and the timeline could not be retrieved. Please try againg later or contact our support team.'
+        raise UnexpectedError(message)
