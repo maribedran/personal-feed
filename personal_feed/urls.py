@@ -12,4 +12,6 @@ urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='exampleapp/itworks.html'), name='home'),
 
     url(r'^social/', include('social_django.urls', namespace='social')),
+
+    url(r'^api/twitter/', include('twitter.urls', namespace='twitter')),
 ]

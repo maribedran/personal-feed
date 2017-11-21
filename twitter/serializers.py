@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from twitter.models import TwitterUser, Tweet
+from twitter.models import Tweet, TwitterUser
 
 
 class TwitterUserCreateSerializer(serializers.ModelSerializer):
@@ -27,3 +27,7 @@ class TweetCreateSerializer(serializers.ModelSerializer):
     def validate(self, data):
         data['twitter_id'] = data.pop('id')
         return data
+
+
+class TwitterUserSerializer(serializers.Serializer):
+    twitter_user = serializers.CharField()
