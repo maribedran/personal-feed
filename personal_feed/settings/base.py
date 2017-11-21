@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django_js_reverse',
     'webpack_loader',
 
+    'rest_framework',
     'social_django',
 
     'common',
