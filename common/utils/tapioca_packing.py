@@ -24,9 +24,13 @@ class TapiocaPacking(object):
     def __call__(self, params=None):
         params = params or {}
         try:
-            return {'status': 200, 'data': self.resource_action(**params)._data}
+            data = self.resource_action(**params)._data
+            return {'status': 200, 'data': self.serialize_data(data)}
         except (ClientError, ServerError) as e:
             return self.handle_error(e, params)
+
+    def serialize_data(self, data):
+        return data
 
     def handle_error(self, error, params):
         status = error.status_code
