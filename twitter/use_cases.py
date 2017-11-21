@@ -31,7 +31,7 @@ class FetchUsersLastMonthsTweetsUseCase(object):
         message = 'Something went wrong and the timeline could not be retrieved. Please try againg later or contact our support team.'
         client = StatusesUserTimelineClient()
         params = {'params': {'user_id': twitter_user.twitter_id, 'count': 200}}
-        tweets = []
+        tweets = {}
         should_fetch_tweets = True
         last_month = date.today() + relativedelta(months=-1)
         in_month_range = lambda t: t['created_at'].date() >= last_month
@@ -43,14 +43,14 @@ class FetchUsersLastMonthsTweetsUseCase(object):
                 for tweet in data:
                     if in_month_range(tweet):
                         tweet['user'] = twitter_user.id
-                        tweets.append(tweet)
+                        tweets[tweet['id']] = tweet
                 earlyest_tweet = data[-1]
                 should_fetch_tweets = (
                     len(data) == 200 and in_month_range(earlyest_tweet))
                 params['params']['max_id'] = earlyest_tweet['id']
             else:
                 should_fetch_tweets = False
-        serializer = TweetCreateSerializer(data=tweets, many=True)
+        serializer = TweetCreateSerializer(data=list(tweets.values()), many=True)
         if serializer.is_valid() and tweets:
             serializer.save()
             message = "Success! User's timeline saved to database."
