@@ -3,6 +3,7 @@ import json
 from django.test import TestCase
 
 import responses
+from dateutil.parser import parse
 from tapioca_twitter import Twitter
 
 from twitter.clients import StatusesUserTimelineClient, UsersLookupClient
@@ -73,7 +74,9 @@ class StatusesUserTimelineClientTest(TestCase):
         )
         params = {'params': {'screen_name': 'dog_rates', 'count': 1}}
         response = StatusesUserTimelineClient()(params)
-        expected = {'status': 200, 'data': [dog_rates_tweet]}
+        tweet = dog_rates_tweet.copy()
+        tweet['created_at'] = parse(tweet['created_at'])
+        expected = {'status': 200, 'data': [tweet]}
         self.assertEqual(expected, response)
 
     @responses.activate

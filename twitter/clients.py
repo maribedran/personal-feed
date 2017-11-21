@@ -1,5 +1,6 @@
 from django.conf import settings
 
+from dateutil.parser import parse
 from tapioca_twitter import Twitter
 
 from common.utils.tapioca_packing import TapiocaPacking
@@ -25,3 +26,8 @@ class StatusesUserTimelineClient(TapiocaPacking):
     auth_params = AUTH_PARAMS
     resource = 'statuses_user_timeline'
     action = 'get'
+
+    def serialize_data(self, data):
+        for tweet in data:
+            tweet['created_at'] = parse(tweet['created_at'])
+        return data
