@@ -14,7 +14,7 @@ class UnexpectedError(Exception):
     pass
 
 
-class FetchUserUseCase(object):
+class AddTwitterUserUseCase(object):
 
     def execute(self, twitter_username):
         params = {'params': {'screen_name': twitter_username}}
@@ -23,7 +23,7 @@ class FetchUserUseCase(object):
         status = response['status']
         data = response['data']
         if status == 200:
-            serializer = TwitterUserCreateSerializer(data=data[0])
+            serializer = TwitterUserCreateSerializer(data=data)
             if serializer.is_valid():
                 return serializer.save()
         elif status == 404:
@@ -31,7 +31,7 @@ class FetchUserUseCase(object):
         raise UnexpectedError('Something went wrong and the user could not be added. Please try againg later or contact our support team.')
 
 
-class FetchUsersLastMonthsTweetsUseCase(object):
+class AddUsersLastMonthsTweetsUseCase(object):
 
     def execute(self, twitter_user):
         client = StatusesUserTimelineClient()
@@ -48,11 +48,11 @@ class FetchUsersLastMonthsTweetsUseCase(object):
                 for tweet in data:
                     if in_month_range(tweet):
                         tweet['user'] = twitter_user.id
-                        tweets[tweet['id']] = tweet
+                        tweets[tweet['twitter_id']] = tweet
                 earlyest_tweet = data[-1]
                 should_fetch_tweets = (
                     len(data) == 200 and in_month_range(earlyest_tweet))
-                params['params']['max_id'] = earlyest_tweet['id']
+                params['params']['max_id'] = earlyest_tweet['twitter_id']
             else:
                 should_fetch_tweets = False
         serializer = TweetCreateSerializer(data=list(tweets.values()), many=True)
