@@ -20,6 +20,11 @@ class UsersLookupClient(TapiocaPacking):
     resource = 'users_lookup'
     action = 'get'
 
+    def serialize_data(self, data):
+        user = data[0]
+        user['twitter_id'] = user.pop('id')
+        return user
+
 
 class StatusesUserTimelineClient(TapiocaPacking):
     tapioca_wrapper = Twitter
@@ -30,4 +35,5 @@ class StatusesUserTimelineClient(TapiocaPacking):
     def serialize_data(self, data):
         for tweet in data:
             tweet['created_at'] = parse(tweet['created_at'])
+            tweet['twitter_id'] = tweet.pop('id')
         return data

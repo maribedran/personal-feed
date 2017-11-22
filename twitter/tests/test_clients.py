@@ -26,8 +26,9 @@ class UsersLookupClientTest(TestCase):
         )
         params = {'params': {'screen_name': 'dog_rates'}}
         response = UsersLookupClient()(params)
-        expected = {'status': 200, 'data': dog_rates_response}
-        self.assertEqual(expected, response)
+        user = dog_rates_response[0].copy()
+        user.update({'twitter_id': user.pop('id')})
+        self.assertEqual({'status': 200, 'data': user}, response)
 
     @responses.activate
     def test_not_found(self):
@@ -75,7 +76,7 @@ class StatusesUserTimelineClientTest(TestCase):
         params = {'params': {'screen_name': 'dog_rates', 'count': 1}}
         response = StatusesUserTimelineClient()(params)
         tweet = dog_rates_tweet.copy()
-        tweet['created_at'] = parse(tweet['created_at'])
+        tweet.update({'created_at': parse(tweet['created_at']), 'twitter_id': tweet.pop('id')})
         expected = {'status': 200, 'data': [tweet]}
         self.assertEqual(expected, response)
 
