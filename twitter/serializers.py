@@ -1,33 +1,29 @@
 from rest_framework import serializers
 
 from twitter.models import Tweet, TwitterUser
+from users.models import User
 
 
 class TwitterUserCreateSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(write_only=True)
+    owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), write_only=True)
 
     class Meta:
         model = TwitterUser
-        fields = ('id', 'twitter_id', 'screen_name', 'name',)
-        read_only_fields = ('twitter_id',)
+        fields = ('twitter_id', 'screen_name', 'name', 'description', 'owner',)
 
-    def validate(self, data):
-        data['twitter_id'] = data.pop('id')
-        return data
+    def create(self, validated_data):
+        user = validated_data.pop('owner')
+        instance = super().create(validated_data)
+        instance.owners.add(user)
+        return instance
 
 
 class TweetCreateSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = Tweet
-        fields = ('id', 'twitter_id', 'user', 'text', 'created_at',)
-        read_only_fields = ('twitter_id',)
-
-    def validate(self, data):
-        data['twitter_id'] = data.pop('id')
-        return data
+        fields = ('twitter_id', 'user', 'text', 'created_at',)
 
 
-class TwitterUserSerializer(serializers.Serializer):
-    twitter_user = serializers.CharField()
+class UsernameSerializer(serializers.Serializer):
+    username = serializers.CharField()

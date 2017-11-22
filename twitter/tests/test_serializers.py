@@ -10,15 +10,19 @@ from twitter.serializers import TweetCreateSerializer, TwitterUserCreateSerializ
 class TwitterUserCreateSerializerTest(TestCase):
 
     def test_serializer_creates_instance(self):
+        user = mommy.make('users.User')
         data = {
-            'id': 1234567890,
+            'twitter_id': 1234567890,
             'screen_name': 'twitter_username',
-            'name': 'Twitter Name'
+            'name': 'Twitter Name',
+            'description': 'Account Description',
+            'owner': user.id
         }
         serializer = TwitterUserCreateSerializer(data=data)
         self.assertTrue(serializer.is_valid())
         serializer.save()
         self.assertIsInstance(serializer.instance, TwitterUser)
+        self.assertEqual(user, serializer.instance.owners.first())
 
 
 class TweetCreateSerializerTest(TestCase):
@@ -27,7 +31,7 @@ class TweetCreateSerializerTest(TestCase):
         now = timezone.now()
         user = mommy.make(TwitterUser)
         data = {
-            'id': 1234567890,
+            'twitter_id': 1234567890,
             'user': user.id,
             'text': 'My awesome tweet',
             'created_at': now.isoformat()
