@@ -5,17 +5,10 @@ from users.models import User
 
 
 class TwitterUserCreateSerializer(serializers.ModelSerializer):
-    owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), write_only=True)
 
     class Meta:
         model = TwitterUser
-        fields = ('twitter_id', 'screen_name', 'name', 'description', 'owner',)
-
-    def create(self, validated_data):
-        user = validated_data.pop('owner')
-        instance = super().create(validated_data)
-        instance.owners.add(user)
-        return instance
+        fields = ('twitter_id', 'screen_name', 'name', 'description',)
 
 
 class TweetCreateSerializer(serializers.ModelSerializer):
