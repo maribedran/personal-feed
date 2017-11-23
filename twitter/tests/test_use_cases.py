@@ -9,7 +9,7 @@ from model_mommy import mommy
 from twitter.models import Tweet, TwitterUser
 from twitter.tests.specs import dog_rates_response, dog_rates_tweet
 from twitter.use_cases import (
-    AddUsersLastMonthsTweetsUseCase, AddTwitterUserUseCase, NotFoundError, UnexpectedError
+    AddTwitterUserUseCase, AddUsersLastMonthsTweetsUseCase, NotFoundError, UnexpectedError
 )
 
 
