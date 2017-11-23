@@ -3,7 +3,9 @@ from unittest.mock import patch
 from model_mommy import mommy
 
 from common.utils.tests import TestCaseUtils
+from twitter.models import Tweet, TwitterUser
 from twitter.use_cases import NotFoundError, UnexpectedError
+from twitter.serializers import TweetSerializer, TwitterUserSerializer
 
 
 class AddUserViewTest(TestCaseUtils):
@@ -67,6 +69,93 @@ class AddUserViewTest(TestCaseUtils):
 class TwitterUserViewSetTest(TestCaseUtils):
 
     def setUp(self):
+        super().setUp()
         self.twitter_user = mommy.make('twitter.TwitterUser')
+        self.twitter_user.owners.add(self.user)
         self.list_url = self.reverse('twitter:users-list')
-        self.retrieve_url = self.reverse('twitter:users-list')
+        self.detail_url = self.reverse('twitter:users-detail', self.twitter_user.id)
+
+    def test_list_returns_status_code_200(self):
+        response = self.auth_client.get(self.list_url)
+        self.assertResponse200(response)
+
+    def test_list_returns_correct_data(self):
+        data = TwitterUserSerializer(self.twitter_user).data
+        response = self.auth_client.get(self.list_url)
+        self.assertEqual(1, response.json()['count'])
+        self.assertEqual([data], response.json()['results'])
+
+    def test_list_filters_by_logged_user(self):
+        twitter_user = mommy.make('twitter.TwitterUser')
+
+        response = self.auth_client.get(self.list_url)
+        count = TwitterUser.objects.filter(owners=self.user).count()
+        self.assertEqual(count, response.json()['count'])
+
+        twitter_user.owners.add(self.user)
+
+        response = self.auth_client.get(self.list_url)
+        self.assertEqual(count + 1, response.json()['count'])
+
+    def test_detail_returns_status_code_200(self):
+        response = self.auth_client.get(self.detail_url)
+        self.assertResponse200(response)
+
+    def test_detail_returns_correct_data(self):
+        data = TwitterUserSerializer(self.twitter_user).data
+        response = self.auth_client.get(self.detail_url)
+        self.assertEqual(data, response.json())
+
+    def test_detail_returns_404_if_user_is_not_owner(self):
+        twitter_user = mommy.make('twitter.TwitterUser')
+        detail_url = self.reverse('twitter:users-detail', twitter_user.id)
+        response = self.auth_client.get(detail_url)
+        self.assertResponse404(response)
+
+
+class TweetViewSetTest(TestCaseUtils):
+
+    def setUp(self):
+        super().setUp()
+        self.twitter_user = mommy.make('twitter.TwitterUser')
+        self.twitter_user.owners.add(self.user)
+        self.tweet = mommy.make('twitter.Tweet', user=self.twitter_user)
+        self.list_url = self.reverse('twitter:tweets-list')
+        self.detail_url = self.reverse('twitter:tweets-detail', self.tweet.id)
+
+    def test_list_returns_status_code_200(self):
+        response = self.auth_client.get(self.list_url)
+        self.assertResponse200(response)
+
+    def test_list_returns_correct_data(self):
+        data = TweetSerializer(self.tweet).data
+        response = self.auth_client.get(self.list_url)
+        self.assertEqual(1, response.json()['count'])
+        self.assertEqual([data], response.json()['results'])
+
+    def test_list_filters_by_logged_user(self):
+        tweet = mommy.make('twitter.Tweet')
+
+        response = self.auth_client.get(self.list_url)
+        count = Tweet.objects.filter(user__owners=self.user).count()
+        self.assertEqual(count, response.json()['count'])
+
+        tweet.user.owners.add(self.user)
+
+        response = self.auth_client.get(self.list_url)
+        self.assertEqual(count + 1, response.json()['count'])
+
+    def test_detail_returns_status_code_200(self):
+        response = self.auth_client.get(self.detail_url)
+        self.assertResponse200(response)
+
+    def test_detail_returns_correct_data(self):
+        data = TweetSerializer(self.tweet).data
+        response = self.auth_client.get(self.detail_url)
+        self.assertEqual(data, response.json())
+
+    def test_detail_returns_404_if_user_is_not_owner(self):
+        tweet = mommy.make('twitter.Tweet')
+        detail_url = self.reverse('twitter:tweets-detail', tweet.id)
+        response = self.auth_client.get(detail_url)
+        self.assertResponse404(response)
