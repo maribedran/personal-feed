@@ -16,7 +16,7 @@ SITE_ID = 1
 
 SECURE_HSTS_PRELOAD = True
 
-DEBUG = True
+DEBUG = config('DEBUG', False)
 
 ADMINS = (
     ('Mariana Bedran Lesche', 'maribedran@gmail.com'),
