@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from twitter.models import Tweet, TwitterUser
-from twitter.serializers import TweetGetSerializer, TwitterUserGetSerializer, UsernameSerializer
+from twitter.serializers import TweetSerializer, TwitterUserSerializer, UsernameSerializer
 from twitter.use_cases import (
     AddTwitterUserUseCase, AddUsersLastMonthsTweetsUseCase, NotFoundError, UnexpectedError
 )
@@ -39,9 +39,9 @@ class AddTwitterUserView(APIView):
 
 class TwitterUserReadOnlyViewSet(ReadOnlyModelViewSet):
     queryset = TwitterUser.objects.all()
-    serializer_class = TwitterUserGetSerializer
+    serializer_class = TwitterUserSerializer
 
 
 class TweetReadOnlyViewSet(ReadOnlyModelViewSet):
     queryset = Tweet.objects.all()
-    serializer_class = TweetGetSerializer
+    serializer_class = TweetSerializer
