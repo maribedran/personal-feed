@@ -4,6 +4,8 @@ from django.views.generic import TemplateView
 
 import django_js_reverse.views
 
+from users.views import logout_view
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -12,6 +14,7 @@ urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='exampleapp/itworks.html'), name='home'),
 
     url(r'^social/', include('social_django.urls', namespace='social')),
+    url(r'^logout/', logout_view, name='logout'),
 
     url(r'^api/twitter/', include('twitter.urls', namespace='twitter')),
 ]
