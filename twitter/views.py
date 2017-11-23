@@ -1,11 +1,11 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from twitter.models import Tweet, TwitterUser
-from twitter.serializers import UsernameSerializer, TweetGetSerializer, TwitterUserGetSerializer
+from twitter.serializers import TweetGetSerializer, TwitterUserGetSerializer, UsernameSerializer
 from twitter.use_cases import (
-    AddUsersLastMonthsTweetsUseCase, AddTwitterUserUseCase,
-    NotFoundError, UnexpectedError
+    AddTwitterUserUseCase, AddUsersLastMonthsTweetsUseCase, NotFoundError, UnexpectedError
 )
 
 
@@ -35,3 +35,13 @@ class AddTwitterUserView(APIView):
                 response = 'Success! User added to feed.'
                 self.associate_users(twitter_user, request.user)
         return Response(response, status=status)
+
+
+class TwitterUserReadOnlyViewSet(ReadOnlyModelViewSet):
+    queryset = TwitterUser.objects.all()
+    serializer_class = TwitterUserGetSerializer
+
+
+class TweetReadOnlyViewSet(ReadOnlyModelViewSet):
+    queryset = Tweet.objects.all()
+    serializer_class = TweetGetSerializer

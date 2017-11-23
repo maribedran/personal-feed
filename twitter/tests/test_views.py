@@ -62,3 +62,11 @@ class AddUserViewTest(TestCaseUtils):
         mocked_user_uc.assert_called_once_with('user')
         self.assertResponseContentEqual(response, 'Error Message')
         mocked_tweets_uc.assert_called_once_with('User Created!')
+
+
+class TwitterUserViewSetTest(TestCaseUtils):
+
+    def setUp(self):
+        self.twitter_user = mommy.make('twitter.TwitterUser')
+        self.list_url = self.reverse('twitter:users-list')
+        self.retrieve_url = self.reverse('twitter:users-list')

@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from twitter.models import Tweet, TwitterUser
-from users.models import User
 
 
 class TwitterUserCreateSerializer(serializers.ModelSerializer):
@@ -20,3 +19,17 @@ class TweetCreateSerializer(serializers.ModelSerializer):
 
 class UsernameSerializer(serializers.Serializer):
     username = serializers.CharField()
+
+
+class TwitterUserGetSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TwitterUser
+        fields = ('id', 'twitter_id', 'screen_name', 'name',)
+
+
+class TweetGetSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Tweet
+        fields = ('id', 'twitter_id', 'user', 'text', 'created_at',)
