@@ -1,5 +1,5 @@
 import React from 'react';
-import HomePageReactTitle from 'components/HomePageReactTitle';
+import Navbar from 'components/Navbar';
 
 /* You also get this warning in v1.x if you write your root component as
    stateless plain function instead of using React.Component. This problem
@@ -8,7 +8,7 @@ import HomePageReactTitle from 'components/HomePageReactTitle';
 // eslint-disable-next-line react/prefer-stateless-function
 export default class HomePageContainer extends React.Component {
   render() {
-    const title = 'It really does work! (rendered by React, change this message to test hot reloading)';
-    return <HomePageReactTitle title={title} />;
+    const title = 'My Personal Feed';
+    return <Navbar title={title} />;
   }
 }
