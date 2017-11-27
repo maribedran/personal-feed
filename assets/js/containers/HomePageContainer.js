@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from 'components/Navbar';
-import TweetsList from 'components/TweetsList';
+import TweetsListContainer from 'containers/TweetsListContainer';
 
 /* You also get this warning in v1.x if you write your root component as
    stateless plain function instead of using React.Component. This problem
@@ -8,33 +8,13 @@ import TweetsList from 'components/TweetsList';
    https://github.com/gaearon/react-hot-loader/blob/4978bffbb82a2508cf5d4ef2eee8b9b9101284ad/docs/Troubleshooting.md */
 // eslint-disable-next-line react/prefer-stateless-function
 export default class HomePageContainer extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      tweets: []
-    };
-  }
-
-  componentDidMount() {
-    this.setState({
-       tweets: [
-          {
-            twitter_id: 1,
-            text: 'My Tweet',
-            user: 1,
-            created_at: '2017-01-01 10:00:00'
-          }
-        ]
-    })
-
-  }
 
   render() {
     const title = 'My Personal Feed';
     return (
         <div>
           <Navbar title={title} />
-          <TweetsList tweets={this.state.tweets} />
+          <TweetsListContainer />
         </div>
     );
   }
