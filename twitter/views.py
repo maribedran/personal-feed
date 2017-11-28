@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
+from twitter.filters import TweetFilter
 from twitter.models import Tweet, TwitterUser
 from twitter.serializers import TweetSerializer, TwitterUserSerializer, UsernameSerializer
 from twitter.use_cases import (
@@ -42,8 +43,8 @@ class AddTwitterUserView(APIView):
 class TwitterUserReadOnlyViewSet(ReadOnlyModelViewSet):
     serializer_class = TwitterUserSerializer
     filter_backends = (DjangoFilterBackend, OrderingFilter,)
-    filter_fields = ('twitter_id', 'screen_name',)
-    ordering = ('twitter_id',)
+    filter_fields = ('id', 'twitter_id', 'screen_name',)
+    ordering = ('screen_name',)
 
     def get_queryset(self):
         return TwitterUser.objects.filter(owners=self.request.user)
@@ -52,8 +53,8 @@ class TwitterUserReadOnlyViewSet(ReadOnlyModelViewSet):
 class TweetReadOnlyViewSet(ReadOnlyModelViewSet):
     serializer_class = TweetSerializer
     filter_backends = (DjangoFilterBackend, OrderingFilter,)
-    filter_fields = ('twitter_id',)
-    ordering = ('twitter_id',)
+    filter_class = TweetFilter
+    ordering = ('-created_at',)
 
     def get_queryset(self):
         return Tweet.objects.select_related('user').filter(user__owners=self.request.user)
