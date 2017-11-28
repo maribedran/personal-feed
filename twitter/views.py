@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from twitter.filters import TweetFilter
+from twitter.filters import TweetFilter, TwitterUserFilter
 from twitter.models import Tweet, TwitterUser
 from twitter.serializers import TweetSerializer, TwitterUserSerializer, UsernameSerializer
 from twitter.use_cases import (
@@ -43,7 +43,7 @@ class AddTwitterUserView(APIView):
 class TwitterUserReadOnlyViewSet(ReadOnlyModelViewSet):
     serializer_class = TwitterUserSerializer
     filter_backends = (DjangoFilterBackend, OrderingFilter,)
-    filter_fields = ('id', 'twitter_id', 'screen_name',)
+    filter_class = TwitterUserFilter
     ordering = ('screen_name',)
 
     def get_queryset(self):
