@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from 'components/Navbar';
 import TweetsListContainer from 'containers/TweetsListContainer';
+import UsersListContainer from 'containers/UsersListContainer';
 
 /* You also get this warning in v1.x if you write your root component as
    stateless plain function instead of using React.Component. This problem
@@ -14,6 +15,7 @@ export default class HomePageContainer extends React.Component {
     return (
         <div>
           <Navbar title={title} />
+          <UsersListContainer />
           <TweetsListContainer />
         </div>
     );
