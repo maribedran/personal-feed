@@ -6,7 +6,7 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from twitter.filters import TweetFilter, TwitterUserFilter
 from twitter.models import Tweet, TwitterUser
-from twitter.serializers import TweetSerializer, TwitterUserSerializer, UsernameSerializer
+from twitter.serializers import TweetGetSerializer, TwitterUserSerializer, UsernameSerializer
 from twitter.use_cases import (
     AddTwitterUserUseCase, AddUsersLastMonthsTweetsUseCase, NotFoundError, UnexpectedError
 )
@@ -51,7 +51,7 @@ class TwitterUserReadOnlyViewSet(ReadOnlyModelViewSet):
 
 
 class TweetReadOnlyViewSet(ReadOnlyModelViewSet):
-    serializer_class = TweetSerializer
+    serializer_class = TweetGetSerializer
     filter_backends = (DjangoFilterBackend, OrderingFilter,)
     filter_class = TweetFilter
     ordering = ('-created_at',)

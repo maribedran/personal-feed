@@ -4,8 +4,8 @@ from model_mommy import mommy
 
 from common.utils.tests import TestCaseUtils
 from twitter.models import Tweet, TwitterUser
+from twitter.serializers import TweetGetSerializer, TwitterUserSerializer
 from twitter.use_cases import NotFoundError, UnexpectedError
-from twitter.serializers import TweetSerializer, TwitterUserSerializer
 
 
 class AddUserViewTest(TestCaseUtils):
@@ -128,7 +128,7 @@ class TweetViewSetTest(TestCaseUtils):
         self.assertResponse200(response)
 
     def test_list_returns_correct_data(self):
-        data = TweetSerializer(self.tweet).data
+        data = TweetGetSerializer(self.tweet).data
         response = self.auth_client.get(self.list_url)
         self.assertEqual(1, response.json()['count'])
         self.assertEqual([data], response.json()['results'])
@@ -150,7 +150,7 @@ class TweetViewSetTest(TestCaseUtils):
         self.assertResponse200(response)
 
     def test_detail_returns_correct_data(self):
-        data = TweetSerializer(self.tweet).data
+        data = TweetGetSerializer(self.tweet).data
         response = self.auth_client.get(self.detail_url)
         self.assertEqual(data, response.json())
 

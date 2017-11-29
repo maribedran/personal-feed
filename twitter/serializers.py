@@ -10,7 +10,15 @@ class TwitterUserSerializer(serializers.ModelSerializer):
         fields = ('twitter_id', 'screen_name', 'name', 'description',)
 
 
-class TweetSerializer(serializers.ModelSerializer):
+class TweetCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Tweet
+        fields = ('twitter_id', 'user', 'text', 'created_at',)
+
+
+class TweetGetSerializer(serializers.ModelSerializer):
+    user = TwitterUserSerializer()
 
     class Meta:
         model = Tweet

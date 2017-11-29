@@ -3,7 +3,7 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 
 from twitter.clients import StatusesUserTimelineClient, UsersLookupClient
-from twitter.serializers import TweetSerializer, TwitterUserSerializer
+from twitter.serializers import TweetCreateSerializer, TwitterUserSerializer
 
 
 class NotFoundError(Exception):
@@ -55,7 +55,7 @@ class AddUsersLastMonthsTweetsUseCase(object):
                 params['params']['max_id'] = earlyest_tweet['twitter_id']
             else:
                 should_fetch_tweets = False
-        serializer = TweetSerializer(data=list(tweets.values()), many=True)
+        serializer = TweetCreateSerializer(data=list(tweets.values()), many=True)
         if serializer.is_valid() and tweets:
             serializer.save()
             return "Success! User's timeline saved to database."
