@@ -3,21 +3,21 @@ import PropTypes from 'prop-types';
 
 import { Urls } from 'utils';
 
-import NavbarBrand from 'components/NavbarBrand'
-
 
 const Navbar = ({ title }) => {
-  const homeURL = Urls.home();
+	const homeURL = Urls.home();
 
-  return (
-      <nav className="navbar">
-        <NavbarBrand url={homeURL} title={title} />
-      </nav>
-  );
+	return (
+  		<nav className="navbar navbar-inverse bg-inverse">
+  			<div className="container">
+  				<a className="navbar-brand" href={homeURL}>{title}</a>
+  			</div>
+		</nav>
+	);
 };
 
 Navbar.propTypes = {
-  title: PropTypes.string.isRequired,
+	title: PropTypes.string.isRequired,
 };
 
 export default Navbar;
