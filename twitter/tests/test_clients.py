@@ -76,7 +76,11 @@ class StatusesUserTimelineClientTest(TestCase):
         params = {'params': {'screen_name': 'dog_rates', 'count': 1}}
         response = StatusesUserTimelineClient()(params)
         tweet = dog_rates_tweet.copy()
-        tweet.update({'created_at': parse(tweet['created_at']), 'twitter_id': tweet.pop('id')})
+        tweet.update({
+            'created_at': parse(tweet['created_at']),
+            'twitter_id': tweet.pop('id'),
+            'tags': [tag['text'] for tag in tweet['entities']['hashtags']]
+        })
         expected = {'status': 200, 'data': [tweet]}
         self.assertEqual(expected, response)
 

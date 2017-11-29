@@ -6,6 +6,7 @@ from django.test import TestCase
 from dateutil.relativedelta import relativedelta
 from model_mommy import mommy
 
+from twitter.clients import StatusesUserTimelineClient
 from twitter.models import Tweet, TwitterUser
 from twitter.tests.specs import dog_rates_response, dog_rates_tweet
 from twitter.use_cases import (
@@ -60,7 +61,7 @@ class AddTwitterUserUseCaseTest(TestCase):
         use_case = AddTwitterUserUseCase()
 
         self.assertRaises(UnexpectedError, use_case.execute, 'dog_rates')
-        params = {'params': {'screen_name': 'dog_rates' }}
+        params = {'params': {'screen_name': 'dog_rates'}}
         mocked_client.assert_called_once_with()
         mocked_client_call.assert_called_once_with(params)
 
@@ -70,9 +71,7 @@ class AddUsersLastMonthsTweetsUseCaseTest(TestCase):
     def setUp(self):
         self.user = mommy.make(TwitterUser)
         tweet = dog_rates_tweet.copy()
-        tweet['created_at'] = datetime.now()
-        tweet['twitter_id'] = tweet.pop('id')
-        self.tweet = tweet
+        self.tweet = StatusesUserTimelineClient().serialize_data([tweet])[0]
 
     @patch('twitter.use_cases.StatusesUserTimelineClient.__call__')
     @patch('twitter.use_cases.StatusesUserTimelineClient.__init__')

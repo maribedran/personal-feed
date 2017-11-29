@@ -36,4 +36,5 @@ class StatusesUserTimelineClient(TapiocaPacking):
         for tweet in data:
             tweet['created_at'] = parse(tweet['created_at'])
             tweet['twitter_id'] = tweet.pop('id')
+            tweet['tags'] = [tag['text'] for tag in tweet['entities']['hashtags']]
         return data
