@@ -10,14 +10,22 @@ import UsersListContainer from 'containers/UsersListContainer';
 // eslint-disable-next-line react/prefer-stateless-function
 export default class HomePageContainer extends React.Component {
 
-  render() {
-    const title = 'My Personal Feed';
-    return (
-        <div>
-          <Navbar title={title} />
-          <UsersListContainer />
-          <TweetsListContainer />
-        </div>
-    );
-  }
+    render() {
+        const title = 'My Personal Feed';
+        return (
+            <div>
+                <Navbar title={title} />
+                <div className="container">
+                    <div className="row mt-5">
+                        <div className="col-sm-12 col-md-3">
+                            <UsersListContainer />
+                        </div>
+                        <div className="col-sm-12 col-md-9">
+                            <TweetsListContainer />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }
