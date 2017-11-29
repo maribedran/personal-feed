@@ -38,12 +38,14 @@ class TweetModelTest(TestCase):
             twitter_id=1234567890,
             user=user,
             text='Awesome Tweet',
-            created_at=now
+            created_at=now,
+            tags=['tag1', 'tag2']
         )
         self.assertEqual(1234567890, tweet.twitter_id)
         self.assertEqual(user, tweet.user)
         self.assertEqual('Awesome Tweet', tweet.text)
         self.assertEqual(now, tweet.created_at)
+        self.assertEqual(['tag1', 'tag2'], tweet.tags)
 
     def test_deleting_user_deletes_tweet(self):
         user = mommy.make(TwitterUser)
