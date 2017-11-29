@@ -16,11 +16,13 @@ export default class UsersListContainer extends React.Component {
           {
             twitter_id: 1,
             screen_name: 'twitterUser',
+            name: 'User',
             description: 'Twitter User'
           },
           {
             twitter_id: 2,
             screen_name: 'coolUser',
+            name: 'Cool User',
             description: 'Cool User'
           }
         ]

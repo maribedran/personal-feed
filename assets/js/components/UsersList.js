@@ -6,18 +6,23 @@ import User from 'components/User';
 const UsersList = ({ users }) => {
 
   return (
-      <div>
-          <h2>All users</h2>
-          <ul>
-              {users.map((user) =>
-                <User
-                    key={user.twitter_id.toString()}
-                    twitter_id={user.twitter_id}
-                    screen_name={user.screen_name}
-                    description={user.description}/>
-              )}
-          </ul>
-      </div>
+    <table className="table table-sm table-hover">
+      <thead>
+        <tr>
+          <th>Users</th>
+        </tr>
+      </thead>
+      <tbody>
+        {users.map((user) =>
+          <User
+              key={user.twitter_id.toString()}
+              twitter_id={user.twitter_id}
+              screen_name={user.screen_name}
+              name={user.name}
+              description={user.description}/>
+        )}
+      </tbody>
+    </table>
   );
 };
 
