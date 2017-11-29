@@ -1,20 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const User = ({ twitter_id, screen_name, name, description }) => {
+const User = ({ user, selectUser }) => {
 
-  return (
-      <tr>
-        <td><strong>{name}</strong> @{screen_name}</td>
-      </tr>
-  );
+    return (
+        <tr>
+            <td>
+                <input type="checkbox"
+                       value={user.selected}
+                       onChange={(event) => selectUser(user, event)}/>
+                <strong> {user.name}</strong> @{user.screen_name}
+            </td>
+        </tr>
+    );
 };
 
 User.propTypes = {
-  twitter_id: PropTypes.number.isRequired,
-  screen_name: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+    user: PropTypes.object.isRequired,
+    selectUser: PropTypes.func.isRequired,
 };
 
 export default User;
