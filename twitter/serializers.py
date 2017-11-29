@@ -14,7 +14,7 @@ class TweetCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tweet
-        fields = ('twitter_id', 'user', 'text', 'created_at',)
+        fields = ('twitter_id', 'user', 'text', 'created_at', 'tags',)
 
 
 class TweetGetSerializer(serializers.ModelSerializer):
@@ -22,7 +22,7 @@ class TweetGetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tweet
-        fields = ('twitter_id', 'user', 'text', 'created_at',)
+        fields = ('twitter_id', 'user', 'text', 'created_at', 'tags',)
 
 
 class UsernameSerializer(serializers.Serializer):

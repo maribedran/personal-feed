@@ -45,7 +45,7 @@ class TweetCreateSerializerTest(TestCase):
             'twitter_id': 1234567890,
             'user': user.id,
             'text': 'My awesome tweet',
-            'created_at': now.isoformat()
+            'created_at': now.isoformat(),
         }
         serializer = self.serializer(data=data)
         self.assertTrue(serializer.is_valid())
@@ -59,7 +59,8 @@ class TweetCreateSerializerTest(TestCase):
             'twitter_id': 1234567890,
             'user': user,
             'text': 'My awesome tweet',
-            'created_at': now.isoformat()
+            'created_at': now.isoformat(),
+            'tags': ['tag', 'tag2'],
         }
         tweet = mommy.make('twitter.Tweet', **data)
         serializer = self.serializer(instance=tweet)
@@ -79,7 +80,8 @@ class TweetGetSerializerTest(TestCase):
             'twitter_id': 1234567890,
             'user': user,
             'text': 'My awesome tweet',
-            'created_at': now.isoformat()
+            'created_at': now.isoformat(),
+            'tags': ['tag', 'tag2'],
         }
         tweet = mommy.make('twitter.Tweet', **data)
         serializer = self.serializer(instance=tweet)
