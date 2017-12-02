@@ -3,8 +3,16 @@ import PropTypes from 'prop-types';
 
 import User from 'components/User';
 
-const UsersList = ({ users, selectUserCallback }) => {
-
+const UsersList = ({ users, toggleUser }) => {
+    const usersList = users.map(user => 
+          <tr key={user.twitter_id}>
+              <td className={user.selected ? 'bg-primary' : ''}>
+                  <a onClick={(event) => toggleUser(user, event)}>
+                      <User user={user} toggleUser={toggleUser}/>
+                    </a>
+                </td>
+            </tr>
+    );
     return (
         <table className="table table-sm table-hover">
             <thead>
@@ -13,9 +21,7 @@ const UsersList = ({ users, selectUserCallback }) => {
                 </tr>
             </thead>
             <tbody>
-                {users.map((user) =>
-                    <User key={user.twitter_id} user={user} selectUser={selectUserCallback}/>
-                )}
+                {usersList}
             </tbody>
         </table>
     );
@@ -23,6 +29,7 @@ const UsersList = ({ users, selectUserCallback }) => {
 
 UsersList.propTypes = {
     users: PropTypes.array.isRequired,
+    toggleUser: PropTypes.func.isRequired,
 };
 
 export default UsersList;

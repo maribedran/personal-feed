@@ -31,10 +31,9 @@ export default class UsersListContainer extends React.Component {
         })
     }
 
-    selectUser(user, event) {
-        user.selected = event.target.checked;
-        console.log(user);
-        console.log(event);
+    toggleUser(user, event) {
+        user.selected = !user.selected;
+        this.setState(this.state);
     }
 
     addUser(user) {
@@ -42,6 +41,6 @@ export default class UsersListContainer extends React.Component {
     }
 
     render() {
-        return <UsersList users={this.state.users} selectUserCallback={this.selectUser} />;
+        return <UsersList users={this.state.users} toggleUser={this.toggleUser.bind(this)} />;
     }
 }
