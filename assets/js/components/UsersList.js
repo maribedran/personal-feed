@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import User from 'components/User';
 
 const UsersList = ({ users, toggleUser }) => {
-    const usersList = users.map(user => 
+    const usersList = users.map(user =>
           <tr key={user.twitter_id}>
-              <td className={user.selected ? 'bg-primary' : ''}>
+              <td className={user.selected ? 'bg-info' : ''}>
                   <a onClick={(event) => toggleUser(user, event)}>
                       <User user={user} toggleUser={toggleUser}/>
                     </a>
