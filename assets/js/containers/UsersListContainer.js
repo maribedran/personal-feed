@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+
 import UsersList from 'components/UsersList';
 
 
@@ -10,25 +12,22 @@ export default class UsersListContainer extends React.Component {
         };
     }
 
+    fetchUsers() {
+        axios.get('/api/twitter/users/')
+            .then((response) => {
+                let users = response.data.results.map((user) => {
+                    user.selected = false;
+                    return user;
+                  });
+                  this.setState({users});
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
     componentDidMount() {
-        this.setState({
-            users: [
-                {
-                    twitter_id: 1,
-                    screen_name: 'twitterUser',
-                    name: 'User',
-                    description: 'Twitter User',
-                    selected: false
-                },
-                {
-                    twitter_id: 2,
-                    screen_name: 'coolUser',
-                    name: 'Cool User',
-                    description: 'Cool User',
-                    selected: false
-                }
-            ]
-        })
+        this.fetchUsers();
     }
 
     toggleUser(user, event) {
