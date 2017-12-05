@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+
 import TweetsList from 'components/TweetsList';
 
 
@@ -10,37 +12,18 @@ export default class TweetsListContainer extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.setState({
-       tweets: [
-         {
-           twitter_id: 1,
-           text: 'My Tweet',
-           user: {
-             twitter_id: 1,
-             screen_name: 'twitterUser',
-             name: 'User',
-             description: 'Twitter User'
-           },
-           created_at: '2017-01-01 10:00:00'
-         },
-         {
-           twitter_id: 2,
-           text: 'My Awesome Tweet',
-           user: {
-             twitter_id: 2,
-             screen_name: 'coolUser',
-             name: 'Cool User',
-             description: 'Cool User'
-           },
-           created_at: '2017-01-02 11:00:00'
-         }
-       ]
+  fetchTweets() {
+    axios.get('/api/twitter/tweets/')
+    .then((response) => {
+      this.setState({tweets: response.data.results});
     })
+    .catch((error) => {
+      console.log(error);
+    });
   }
 
-  addTweet(tweet) {
-      this.state.tweets.push(tweet);
+  componentDidMount() {
+    this.fetchTweets();
   }
 
   render() {
